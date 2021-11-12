@@ -38,8 +38,8 @@ jobs:
         python -m pip install --upgrade pip
         pip install flake8 pytest
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-    - uses: harmon758/postgresql-action@v1
-    - name: Install db
+    - name: Install db 
+      uses: harmon758/postgresql-action@v1
       with:
         postgresql version: '12'
     - name: Run migrations
