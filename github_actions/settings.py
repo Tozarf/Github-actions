@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-ddi_0u%qa7nw!^u%t3^nm&$mwf5#^0cjeuw=rlk%q$b&3!1tgk
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [env.get('PSQL_HOST')]
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -77,7 +77,7 @@ if getenv('GITHUB_WORKFLOW'):
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'github-actions',
+            'NAME': 'github_actions',
             'USER': 'postgres',
             'PASSWORD': 'postgres',
             'HOST': 'localhost',
