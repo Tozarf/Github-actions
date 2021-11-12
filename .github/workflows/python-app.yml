@@ -11,10 +11,23 @@ on:
 
 jobs:
   build:
-
+    
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:12
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: github-actions
+        ports:
+          - 5432:5432
+        # needed because the postgres container does not provide a healthcheck
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
     steps:
+    - name: psycopg2 prerequisites
+      run: sudo apt-get install libpq-dev
     - uses: actions/checkout@v2
     - name: Set up Python 3.10
       uses: actions/setup-python@v2
@@ -25,8 +38,13 @@ jobs:
         python -m pip install --upgrade pip
         pip install flake8 pytest
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    - uses: harmon758/postgresql-action@v1
+    - name: Install db
+      with:
+        postgresql version: '12'
     - name: Run migrations
       run: python manage.py migrate
     - name: Run tests
       run: python manage.py test
+      
 
